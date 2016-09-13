@@ -6,7 +6,7 @@ var morgan = require('morgan');                   // log requests to the console
 var bodyParser = require('body-parser');          // pull information from HTML POST (express4)
 var methodOverride = require('method-override');  // simulate DELETE and PUT (express4)
 var database = require('./config/database');
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 2016;
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
@@ -23,6 +23,9 @@ app.use(methodOverride());
 
 // Routes ====================================================
 require('./app/route')(app);
+
+// Seed fake data database =============================================
+require('./app/seed');
 
 // Socket configuration =========================================================
 var id = 0;

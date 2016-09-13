@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 // define model ==============================================
 module.exports = mongoose.model('Chat', {
-  from: Schema.Types.ObjectId,
-  to: Schema.Types.ObjectId,
-  message: String,
+  from: { type: Schema.Types.ObjectId, required: true },
+  room: { type: Schema.Types.ObjectId, required: true },
+  message: { type: String, required: true },
   sent: { type: Date, default: Date.now }
 });
+
