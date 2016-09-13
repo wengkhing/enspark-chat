@@ -1,7 +1,6 @@
+var mongoose = require('mongoose');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
-// var mongoose = require('mongoose');
-// var Schema = mongoose.Schema;
 
 // define model ==============================================
 var userSchema = new mongoose.Schema({
@@ -33,6 +32,8 @@ userSchema.methods.validPassword = function(password) {
 };
 
 userSchema.methods.generateJwt = function() {
+  
+  // Set token to be expired in 7 days
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
 
@@ -43,3 +44,5 @@ userSchema.methods.generateJwt = function() {
     exp: parseInt(expiry.getTime() / 1000),
   }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
+
+mongoose.model('User', userSchema);
