@@ -1,6 +1,7 @@
 (function () {
   var app = angular
   .module('application',[
-    'btford.socket-io'
+    'btford.socket-io',
+    'ngRoute'
   ]);
 })();

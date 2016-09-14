@@ -10,10 +10,6 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var passport = require('passport');
 
-// Database configuration ============================================
-var database = require('./app/config/database');
-mongoose.connect(database.url);
-
 // [SH] Bring in the data model
 require('./app/model/db');
 // [SH] Bring in the Passport config after model is defined
@@ -31,6 +27,9 @@ app.use(methodOverride());
 
 // [SH] Initialise Passport before using the route middleware
 app.use(passport.initialize());
+
+// [SH] Bring in the routes for the API (delete the default routes)
+var routesApi = require('./app/route/index');
 // [SH] Use the API routes when path starts with /api
 app.use('/api', routesApi);
 

@@ -1,6 +1,7 @@
 // Seeding database with lorem data
 
-var User = require('./model/user');
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
 
 User.find(function (err, users) {
   if (users.length > 0) {
