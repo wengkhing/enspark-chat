@@ -2,14 +2,14 @@
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-var ctrlAuth = require('../controller/authentication');
+// var ctrlAuth = require('/controller/authentication');
 
 User.find(function (err, users) {
 
   if (users.length > 0) {
     console.log('server: Database already seeded.');
   } else {
-    
+
     // console.log("server: Seeding database..");
     // var userData = [{
     //   email: "johnbaker@mail.com",
