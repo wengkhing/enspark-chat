@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var ctrlAuth = require('../controller/authentication');
 
 User.find(function (err, users) {
   if (users.length > 0) {
@@ -9,23 +10,23 @@ User.find(function (err, users) {
   } else {
     console.log("server: Seeding database..");
     var userData = [{
-      username: "johnbaker",
-      password: 'password'
+      email: "johnbaker@mail.com",
+      name: 'John Baker'
     }, {
-      username: "wixlxiw",
-      password: "password"
+      email: "wixlxiw@mail.com",
+      name: "Willie Xis"
     }, {
-      username: "dineshzy",
-      password: "password"
+      email: "dineshzy@mail.com",
+      name: "Dinesh ZY"
     }, {
-      username: "shovel-paladin",
-      password: "password"
+      email: "shovel-paladin@mail.com",
+      name: "Shovel Paladin"
     }, {
-      username: "cherylgck",
-      password: "password"
+      email: "cherylgck@mail.com",
+      name: "Cheryl Goh"
     }, {
-      username: "lunagirl79",
-      password: "password"
+      email: "lunagirl79@mail.com",
+      name: "Kristy Hadfield"
     }];
 
     for (var i = 0; i < userData.length; i++) {
