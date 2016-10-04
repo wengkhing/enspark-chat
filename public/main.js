@@ -22,6 +22,11 @@
       controller: 'profileCtrl',
       controllerAs: 'vm'
     })
+    .when('/chat', {
+      templateUrl: '/component/chat/chat.view.html',
+      controller: 'chatCtrl',
+      controllerAs: 'vm'
+    })
     .otherwise({redirectTo: '/'});
 
     // use the HTML5 History API
