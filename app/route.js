@@ -10,19 +10,4 @@ module.exports = function(app) {
     res.sendfile('./public/index.html');
   });
 
-  // Get message from a room
-  app.get('/api/message/:room_id', function (req, res) {
-    // use mongoose to get all todos in the database
-    Chat.find(function (err, msg) {
-      room: req.params.room_id
-      // if there is an error retrieving, send the error. 
-      // nothing after res.send(err) will exec
-      if (err)
-        res.send(err)
-
-      // return all todos in json format
-      res.json(msg);
-    });
-  });
-
 };

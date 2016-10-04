@@ -1,6 +1,6 @@
 (function() {
 
-  function profileService ($http, authService) {
+  var profileService = function ($http, authService) {
 
     var getProfile = function () {
       return $http.get('/api/profile', {
@@ -13,7 +13,7 @@
     return {
       getProfile : getProfile
     };
-  }
+  };
 
   profileService.$inject = ['$http', 'authService'];
 

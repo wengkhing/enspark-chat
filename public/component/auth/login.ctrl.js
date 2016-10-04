@@ -23,7 +23,7 @@
   loginCtrl.$inject = ['$location', 'authService'];
 
   angular
-  .module('meanApp')
+  .module('application')
   .controller('loginCtrl', loginCtrl);
 
 })();

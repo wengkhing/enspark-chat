@@ -1,11 +1,11 @@
-// Setup ==================================================
+// Setup ========================================================================
 var express = require('express');
 var path = require('path');
 var morgan = require('morgan');                   // log requests to the console (express4)
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');          // pull information from HTML POST (express4)
 var methodOverride = require('method-override');  // simulate DELETE and PUT (express4)
-var port = process.env.PORT || 2016;
+var port = process.env.PORT || 8080;
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var passport = require('passport');
@@ -15,63 +15,108 @@ require('./app/model/db');
 // [SH] Bring in the Passport config after model is defined
 require('./app/config/passport');
 
-// App configuration ============================================
+// App configuration ============================================================
 var app = express();
 
-app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
-app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));            
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
+app.use(cookieParser());
 app.use(methodOverride());
+app.use(express.static(path.join(__dirname, 'public')));                 // set the static files location /public/img will be /img for users
 
 // [SH] Initialise Passport before using the route middleware
 app.use(passport.initialize());
 
+
 // [SH] Bring in the routes for the API (delete the default routes)
-var routesApi = require('./app/route/index');
+var routesApi = require('./app/route/api');
 // [SH] Use the API routes when path starts with /api
 app.use('/api', routesApi);
 
-// Routes ====================================================
-require('./app/route')(app);
+// [SH] Otherwise render the index.html page for the Angular SPA
+// [SH] This means we don't have to map all of the SPA routes in Express
+app.use(function(req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-// Seed fake data database =============================================
+// Routes =======================================================================
+
+// Seed fake data database ======================================================
 require('./app/seed');
 
+// // [SH] Otherwise render the index.html page for the Angular SPA
+// // [SH] This means we don't have to map all of the SPA routes in Express
+// app.use(function(req, res) {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
+
+// error handlers ===============================================================
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
 // error handlers
-// Catch unauthorised errors
+// [SH] Catch unauthorised errors
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
     res.status(401);
-    res.json({"server" : err.name + ": " + err.message});
+    res.json({"message" : err.name + ": " + err.message});
   }
 });
 
-// Socket configuration =========================================================
-io.sockets.on('connection', function (socket) {
-  console.log('A user connected.');
-
-  socket.on('disconnect', function(){
-    console.log('A user disconnected.');
-  });
-
-  socket.on('to-server:message', function(data){
-    console.log(data.user + ' said: "' + data.msg + '" at ' + new Date().getTime());
-    io.emit('to-client:message', {
-      user: data.user,
-      msg: data.msg,
-      time: new Date().getTime()
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
     });
-    id = id + 1;
-  });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
+// Socket configuration =========================================================
+// io.sockets.on('connection', function (socket) {
+//   console.log('A user connected.');
+
+//   socket.on('disconnect', function(){
+//     console.log('A user disconnected.');
+//   });
+
+//   socket.on('to-server:message', function(data){
+//     console.log(data.user + ' said: "' + data.msg + '" at ' + new Date().getTime());
+//     io.emit('to-client:message', {
+//       user: data.user,
+//       msg: data.msg,
+//       time: new Date().getTime()
+//     });
+//     id = id + 1;
+//   });
+// });
+
 // Server listen to port number ====================================================
-server.listen(port, function(){
+app.listen(port, function(){
   console.log('========================');
   console.log('      ENSPARK CHAT      ');
   console.log('========================');
   console.log('server: Initalizing Enspark Chat..');
   console.log('server: Magic is now happening at port ' + port + '...');
 });
+
+module.exports = app;

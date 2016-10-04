@@ -3,22 +3,22 @@
   var config = function ($routeProvider, $locationProvider) {
     $routeProvider
     .when('/', {
-      templateUrl: 'home/home.view.html',
-      controller: 'homeCtrl',
+      templateUrl: '/component/auth/login.view.html',
+      controller: 'loginCtrl',
       controllerAs: 'vm'
     })
     .when('/register', {
-      templateUrl: '/auth/register/register.view.html',
+      templateUrl: '/component/auth/register.view.html',
       controller: 'registerCtrl',
       controllerAs: 'vm'
     })
     .when('/login', {
-      templateUrl: '/auth/login/login.view.html',
+      templateUrl: '/component/auth/login.view.html',
       controller: 'loginCtrl',
       controllerAs: 'vm'
     })
     .when('/profile', {
-      templateUrl: '/profile/profile.view.html',
+      templateUrl: '/component/profile/profile.view.html',
       controller: 'profileCtrl',
       controllerAs: 'vm'
     })
