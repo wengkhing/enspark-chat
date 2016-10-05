@@ -3,7 +3,7 @@
   function navbar () {
     return {
       restrict: 'EA',
-      templateUrl: '/directive/navbar.tpl.html',
+      templateUrl: '/tpl/navbar.tpl.html',
       controller: 'navbarCtrl as navvm'
     };
   }

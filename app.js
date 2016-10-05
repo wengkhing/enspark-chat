@@ -25,7 +25,7 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(cookieParser());
 app.use(methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));                 // set the static files location /public/img will be /img for users
+app.use(express.static(path.join(__dirname, 'dist')));                 // set the static files location /public/img will be /img for users
 
 // [SH] Initialise Passport before using the route middleware
 app.use(passport.initialize());
@@ -39,7 +39,7 @@ app.use('/api', routesApi);
 // [SH] Otherwise render the index.html page for the Angular SPA
 // [SH] This means we don't have to map all of the SPA routes in Express
 app.use(function(req, res) {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Routes =======================================================================

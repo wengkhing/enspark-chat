@@ -3,27 +3,27 @@
   var config = function ($routeProvider, $locationProvider) {
     $routeProvider
     .when('/', {
-      templateUrl: '/component/auth/login.view.html',
+      templateUrl: '/view/login.view.html',
       controller: 'loginCtrl',
       controllerAs: 'vm'
     })
     .when('/register', {
-      templateUrl: '/component/auth/register.view.html',
+      templateUrl: '/view/register.view.html',
       controller: 'registerCtrl',
       controllerAs: 'vm'
     })
     .when('/login', {
-      templateUrl: '/component/auth/login.view.html',
+      templateUrl: '/view/login.view.html',
       controller: 'loginCtrl',
       controllerAs: 'vm'
     })
     .when('/profile', {
-      templateUrl: '/component/profile/profile.view.html',
+      templateUrl: '/view/profile.view.html',
       controller: 'profileCtrl',
       controllerAs: 'vm'
     })
     .when('/chat', {
-      templateUrl: '/component/chat/chat.view.html',
+      templateUrl: '/view/chat.view.html',
       controller: 'chatCtrl',
       controllerAs: 'vm'
     })
