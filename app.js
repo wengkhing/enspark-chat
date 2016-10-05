@@ -6,14 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');          // pull information from HTML POST (express4)
 var methodOverride = require('method-override');  // simulate DELETE and PUT (express4)
 var port = process.env.PORT || 8080;
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
+// var server = require('http').createServer(app);
 var passport = require('passport');
 
 // [SH] Bring in the data model
 require('./app/model/db');
 // [SH] Bring in the Passport config after model is defined
 require('./app/config/passport');
+
+
 
 // App configuration ============================================================
 var app = express();
@@ -91,32 +92,15 @@ app.use(function(err, req, res, next) {
     });
 });
 
-// Socket configuration =========================================================
-// io.sockets.on('connection', function (socket) {
-//   console.log('A user connected.');
-
-//   socket.on('disconnect', function(){
-//     console.log('A user disconnected.');
-//   });
-
-//   socket.on('to-server:message', function(data){
-//     console.log(data.user + ' said: "' + data.msg + '" at ' + new Date().getTime());
-//     io.emit('to-client:message', {
-//       user: data.user,
-//       msg: data.msg,
-//       time: new Date().getTime()
-//     });
-//     id = id + 1;
-//   });
-// });
-
 // Server listen to port number ====================================================
-app.listen(port, function(){
+var server = app.listen(port, function(){
   console.log('========================');
   console.log('      ENSPARK CHAT      ');
   console.log('========================');
   console.log('server: Initalizing Enspark Chat..');
   console.log('server: Magic is now happening at port ' + port + '...');
 });
+
+require('./app/socket')(server);
 
 module.exports = app;

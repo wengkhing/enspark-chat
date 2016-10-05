@@ -3,6 +3,7 @@
   var chatCtrl = function ($scope, profileService, chatService) {
     var vm = this;
     var socket = io.connect();
+    
     $scope.bubbles = [];
     $scope.chat = {
       from: "",
@@ -29,7 +30,6 @@
     function getChatHistory() {
       chatService.getLatest()
       .success(function(data) {
-        console.log(data);
         $scope.bubbles = data;
       }).error(function (e) {
         console.log(e);
@@ -41,22 +41,18 @@
       $scope.chat.message = $scope.message;
       $scope.chat.from = $scope.from;
 
-      chatService.send($scope.chat)
-      .error(function (e){
-        console.log(e);
-      });
-
-      // socket.emit('to-server:message', {
-      //   from: $scope.user,
-      //   message: $scope.message
+      // chatService.send($scope.chat)
+      // .error(function (e){
+      //   console.log(e);
       // });
+      socket.emit('to-server:message', $scope.chat);
       $scope.message = "";
     };
 
     socket.on('to-client:message', function (data) {
       console.log(data);
       $scope.$apply(function () {
-        $scope.messages.push(data);
+        $scope.bubbles.push(data);
       });
     });
 

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Chat = mongoose.model('Chat');
 
+
 module.exports.latestHistory = function(req, res) {
 
   // If no user ID exists in the JWT return a 401
@@ -13,8 +14,6 @@ module.exports.latestHistory = function(req, res) {
     Chat
     .find()
     .exec(function(err, chat) {
-      console.log("==============================");
-      console.log(chat);
       res.status(200).json(chat);
     });
   }
