@@ -6,8 +6,13 @@ var auth = jwt({
   userProperty: 'payload'
 });
 
+var ctrlChat = require('../controller/chat');
 var ctrlProfile = require('../controller/profile');
 var ctrlAuth = require('../controller/authentication');
+
+// chat
+router.get('/chat/latest', auth, ctrlChat.latestHistory);
+router.post('/chat/send', ctrlChat.sendMessage);
 
 // profile
 router.get('/profile', auth, ctrlProfile.profileRead);

@@ -5,17 +5,9 @@
 
     <div class="col-md-12">
       <h2>The Great Hall</h2>
-      <dl>
-        <dt>wengkhing</dt>
-        <dd>Hi guys</dd>
-      </dl>
-      <dl>
-        <dt>johndoe</dt>
-        <dd>Hey what's up</dd>
-      </dl>
-      <dl>
-        <dt>wengkhing</dt>
-        <dd>Just mastered MEAN stack!</dd>
+      <dl ng-repeat="bubble in bubbles">
+        <dt>{{ bubble.from }}</dt>
+        <dd>{{ bubble.message }}</dd>
       </dl>
     </div>
 

@@ -1,8 +1,14 @@
 (function() {
   
-  var chatCtrl = function ($scope, profileService) {
+  var chatCtrl = function ($scope, profileService, chatService) {
     var vm = this;
     var socket = io.connect();
+    $scope.bubbles = [];
+    $scope.chat = {
+      from: "",
+      room: "",
+      message: ""
+    };
 
     function init() {
       getUsername();
@@ -14,22 +20,36 @@
     function getUsername() {
       profileService.getProfile()
       .success(function(data) {
-        $scope.user = data.name;
-      })
-      .error(function (e) {
+        $scope.from = data.name;
+      }).error(function (e) {
         console.log(e);
       });
     }
 
     function getChatHistory() {
-
+      chatService.getLatest()
+      .success(function(data) {
+        console.log(data);
+        $scope.bubbles = data;
+      }).error(function (e) {
+        console.log(e);
+      });
     }
 
     $scope.send = function() {
-      socket.emit('to-server:message', {
-        user: $scope.user,
-        msg: $scope.message
+
+      $scope.chat.message = $scope.message;
+      $scope.chat.from = $scope.from;
+
+      chatService.send($scope.chat)
+      .error(function (e){
+        console.log(e);
       });
+
+      // socket.emit('to-server:message', {
+      //   from: $scope.user,
+      //   message: $scope.message
+      // });
       $scope.message = "";
     };
 
@@ -42,7 +62,7 @@
 
   };
 
-  chatCtrl.$inject = ['$scope', 'profileService'];
+  chatCtrl.$inject = ['$scope', 'profileService', 'chatService'];
 
   angular
   .module('application')
